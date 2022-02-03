@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  variables:
+    GO_VERSION: 1.17.6
+
+phases:
+  install:
+    commands:
+      - echo Start install phase...
+      - wget https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz
+      - tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+      - export PATH="usr/local/go/bin:$PATH" && export GOPATH="$HOME/go" && export PATH="$GOPATH/bin:$PATH"
+      # go get -vu [PACKAGES] (For when additional packages are added to go.mod)
+  # test:
+    # commands:
+      # Add this phase after spike into Go automated testing.
+  build: 
+    commands:
+      - echo Start build phase...
+      - cd $CODEBUILD_SRC_DIR && go build
+
+artifacts:
+  files:
+    - 'bott-the-pigeon'
+    - 'appspec.yml'
+    - '.scripts/start-script.sh'
+  name: -btp_$(date +%Y-%m-%dT%H:%M:%SZ)
