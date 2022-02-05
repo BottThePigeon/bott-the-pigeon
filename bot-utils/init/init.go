@@ -1,12 +1,11 @@
 package init
 
 import (
-	"bott-the-pigeon/bot-utils/handlers"
+	handlers "bott-the-pigeon/bot-utils/handlers"
+
 	"fmt"
 	"log"
 	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -24,7 +23,6 @@ func InitBot(botTokenKey string) (*discordgo.Session) {
 
 	addHandlers(bot)
 	openBot(bot)
-	addListeners()
 
 	return bot
 }
@@ -48,13 +46,4 @@ func openBot(bot *discordgo.Session) {
 
 	// Return success message
 	fmt.Println("Bot is running.");
-}
-
-// Make external event listener channel for bot
-func addListeners() {
-
-	//Notify for when killed. TODO: + `os.Kill` maybe? But that throws untrappable warning
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
-	<-sigChan
 }

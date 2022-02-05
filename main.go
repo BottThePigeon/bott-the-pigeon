@@ -2,11 +2,13 @@ package main
 
 import (
 	awsenv "bott-the-pigeon/aws-utils/aws-env"
-	aws "bott-the-pigeon/aws-utils/init"
+	aws "bott-the-pigeon/aws-utils/session"
 	bot "bott-the-pigeon/bot-utils/init"
 
 	"flag"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 // Project root/start; primarily init function caller
@@ -21,11 +23,12 @@ func main() {
 	botTokenKey := getBotTokenKey(*config.prod);
 
 	// Create AWS session and initialise environment stage
-	awssess := aws.InitAws()
-	awsenv.InitEnv(awssess)
+	aws.GetAWSSession()
+	awsenv.InitEnv()
 
 	// Return a bot instance. This is merely an "artifact" to be closed, everything happens inside bot
 	bot := bot.InitBot(botTokenKey)
+	addCloseListener()
 
 	// Close bot at end
 	defer bot.Close()
@@ -69,4 +72,13 @@ func getBotTokenKey(isProd bool) (string) {
 	}
 
 	return botTokenKey
+}
+
+// Waits for a termination/kill etc. signal (Thereby holding the application open indefinitely.)
+func addCloseListener() {
+
+	//TODO: + `os.Kill` maybe? But that throws untrappable warning
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	<-sigChan
 }

@@ -1,6 +1,8 @@
 package awsenv
 
 import (
+	awssess "bott-the-pigeon/aws-utils/session"
+
 	"log"
 	"os"
 	"strings"
@@ -13,10 +15,10 @@ import (
 // Functions that initialise the OS environment via AWS SSM.
 
 // Load Environment Variables
-func InitEnv(awssess *session.Session) {
+func InitEnv() {
 	
 	// Composite of retrieving SSM parameters and assigning to OS Env.
-	ssmEnv := loadEnvFromSSM(awssess)
+	ssmEnv := loadEnvFromSSM(awssess.GetAWSSession())
 	loadSSMEnvIntoOS(ssmEnv)
 }
 
