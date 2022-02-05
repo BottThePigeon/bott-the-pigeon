@@ -38,9 +38,9 @@ func addHandlers(bot *discordgo.Session) {
 }
 
 // Opens the provided session, handling errors
-func openBot(s *discordgo.Session) {
+func openBot(bot *discordgo.Session) {
 
-	err := s.Open()
+	err := bot.Open()
 	if err != nil {
 		log.Fatal("Could not open bot session: ", err)
 		return
@@ -54,7 +54,7 @@ func openBot(s *discordgo.Session) {
 func addListeners() {
 
 	//Notify for when killed. TODO: + `os.Kill` maybe? But that throws untrappable warning
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
-	<-sc
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	<-sigChan
 }

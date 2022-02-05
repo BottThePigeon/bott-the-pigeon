@@ -2,23 +2,32 @@ package handlers
 
 import (
 	"log"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 )
 
-// Contains handler function(s) for on Discord MessageCreate event
-
+//  Handles Discord MessageCreate event and handles multiple relevant
 func OnMessage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 
 	// Respond with random response if the bot is mentioned
 	if checkForBotMention(bot, msg.Mentions) {
-		onTagBot(bot, msg)
+		onTag(bot, msg)
+	}
+
+	if strings.Contains(msg.Content, "!pigeon") {
+		onPigeon(bot, msg)
 	}
 }
 
 // Bot response to being tagged in a group.
-func onTagBot(bot *discordgo.Session, msg *discordgo.MessageCreate) {
+func onTag(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 	bot.ChannelMessageSend(msg.ChannelID, "G'day, am Scott de racing pigeon.");
+}
+
+// Bot response to "!pigeon" - sending an image.
+func onPigeon(bot *discordgo.Session, msg *discordgo.MessageCreate) {
+	
 }
 
 // Simple loop encapsulation to check if user has been mentioned

@@ -24,15 +24,15 @@ func main() {
 	awssess := aws.InitAws()
 	awsenv.InitEnv(awssess)
 
-	// Return a bot instance. This is merely an "artifact" to be closed, everything happens inside bot func
+	// Return a bot instance. This is merely an "artifact" to be closed, everything happens inside bot
 	bot := bot.InitBot(botTokenKey)
 
-	// Close bot at EOF
+	// Close bot at end
 	defer bot.Close()
 }
 
 
-// FLAGS/CONFIGS - (TODO) Maybe isolate in their own package?
+// CONFIGS/FLAGS - (TODO) Maybe isolate in their own package?
 
 // Miscellaneous (and non-confidential) environment variable initialisation (That doesn't need AWS) goes here
 func initEnv() {
@@ -40,6 +40,7 @@ func initEnv() {
 	os.Setenv("SSM_PARAMETER_PATH", "/btp/") // SSM Parameter Store location of project-related variables.
 	//Note: The instance we're running on shouldn't have permission to use parameters outside this path. 
 }
+
 
 // Struct containing the flag configurations for the application
 type flagConfig struct {
