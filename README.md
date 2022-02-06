@@ -10,19 +10,23 @@ Monorepo for the Discord Bot "Bott The Pigeon" (Or Scott the Pigeon). It is writ
 
 ## Branch Structure:
  'release' serves as the default branch - what is typically 'main' or 'master'. This is arguably an unusual pattern, but the default branch should, generally, be kept in a buildable state. By extension, it makes sense for the branch that is most likely to be buildable to be the branch that is actually built using CI. 
- 'dev' is the main branch for development. Feature branches may be made, but the intention is for this project to be as simple as possible, in line with how Go operates. Using just these two branches in general makes understanding the repository much easier.
+ 'dev' is the main branch for development. There are feature branches, but generally the intention is for this project to be as simple as possible, in line with how Go operates. Using just these two branches in general makes understanding the repository much easier.
 
 ## Project Hierarchy:
  This is the logical hierarchy, according to how Go sees it. The directories within the repository should imitate this - perhaps with the exception of the main package, in the root. Each of these should be fairly self-explanatory - capitalised are the modules that should be used as entrypoints to the application. Obviously, this is very much subject to change as feature additions and therefore architectural considerations emerge.
  - Module: Bott-The-Pigeon
    - Package: MAIN
-   - Package: AWS-Utils
+   - Package: AWS-Utils (This is completely generic AWS stuff, like session init. Things like getting something from a specific ARN on a particular AWS service should be written within the context of the logic it is used in - probably the Bot-Utils handlers. Otherwise 90% of the application would be inside AWS-Utils, which doesn't make as much sense as it all being within the context of the bot itself.)
       - Package: Init
       - Package: AWSEnv
-   - Package: Bot-Utils
+   - Package: Bot-Utils (Most stuff should go here - any specific features that the bot offers, basically, which is most of the application.)
       - Package: Init
       - Package: Handlers
+         - Package: On-Message-Handlers (Since many different kinds of events can occur based on a message being sent.)
    - Package: TESTS
+
+## Naming Conventions:
+ Golang naming conventions are pretty interesting with regards to capitalisation and camel casing, but follow those. Additionally, folders and files should be lower-case and hyphenated. We can use _* to indicate some sort of functional distinction, such as _test for test files, so ensure hyphens are instead used for word spacing. For example, bot-utils/on-message. Packages should match the folder structure - packages cannot contain hyphens, so should simply be an un-hyphenated version of the folder name. A bit ugly, but any possible ambiguity is removed by the folder name.
 
 ## TODOS (Future Features):
  - Random set of answers rather than a fixed one when tagging the bot.

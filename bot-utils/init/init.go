@@ -3,7 +3,6 @@ package init
 import (
 	handlers "bott-the-pigeon/bot-utils/handlers"
 
-	"fmt"
 	"log"
 	"os"
 
@@ -45,5 +44,5 @@ func openBot(bot *discordgo.Session) {
 	}
 
 	// Return success message
-	fmt.Println("Bot is running.");
+	log.Println("Bot is running.");
 }
