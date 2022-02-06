@@ -28,19 +28,4 @@ Monorepo for the Discord Bot "Bott The Pigeon" (Or Scott the Pigeon). It is writ
 ## Naming Conventions:
  Golang naming conventions are pretty interesting with regards to capitalisation and camel casing, but follow those. Additionally, folders and files should be lower-case and hyphenated. We can use _* to indicate some sort of functional distinction, such as _test for test files, so ensure hyphens are instead used for word spacing. For example, bot-utils/on-message. Packages should match the folder structure - packages cannot contain hyphens, so should simply be an un-hyphenated version of the folder name. A bit ugly, but any possible ambiguity is removed by the folder name.
 
-## TODOS (Future Features):
- - Random set of answers rather than a fixed one when tagging the bot.
-    - These could potentially be stored in a database, or Parameter Store, not sure.
- - Random image of a pigeon when sending "!pigeon".
-    - These could be fetched from an S3 bucket. It seems to be kinda slow, so maybe use CloudFront if needed.
- - More to be discussed!
-
-## TODOS (Technical):
- - Add tests (This should be test-driven, but that's kind of difficult with the way the Discord API operates.)
-    - An odd, but seemingly viable solution would be to use 3 bots:
-        - A production bot, live and hosted: Obviously the one that should be seen 24/7 by end users.
-        - A development bot, for testing purposes by the developer. 
-        - A "test controller" bot that simulates user activity, such that we can gather the response from the development bot.
-    - This is still very much a matter of much chin-stroking, since that seems a little OTT.
- - Furthermore, automate those tests. Will involve some consideration with how to access the test bots to run the build.
- - Delete these TODO lists and actually get them up on a Kanban board or something Adam you lazy sod
+## [TODO](https://github.com/users/adad-mitch/projects/1)
