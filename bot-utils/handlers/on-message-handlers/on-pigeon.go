@@ -70,7 +70,6 @@ func getRandomS3Key(s3svc *s3.S3, bucketLoc string) (string) {
 	randomIndex := rand.Intn(len(objList.Contents))
 	randomKey := *objList.Contents[randomIndex].Key
 
-	log.Println(randomKey)
 	return randomKey
 }
 
