@@ -80,6 +80,10 @@ func getS3Object(s3svc *s3.S3, bucketLoc string, objKey string) (*string, error)
 		Key: &objKey,
 	})
 
+	if s3req.Error != nil {
+		return nil, s3req.Error
+	}
+
 	url, err := s3req.Presign(time.Minute*5)
 
 	if err != nil {
