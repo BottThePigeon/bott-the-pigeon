@@ -14,8 +14,8 @@ func CheckForBotMention(bot *discordgo.Session, mentions []*discordgo.User) (boo
 		log.Fatal("Could not get session current user: ", err)
 	}
 
-	for i := 0; i < len(mentions); i++ {
-		if mentions[i].ID == user.ID {
+	for _, m := range mentions {
+		if m.ID == user.ID {
 			return true
 		}
 	}

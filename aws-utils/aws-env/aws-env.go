@@ -42,9 +42,9 @@ func loadEnvFromSSM(awssess *session.Session) (*ssm.GetParametersByPathOutput) {
 func loadSSMEnvIntoOS(ssmparams *ssm.GetParametersByPathOutput) {
 
 	// Iterate through SSM Parameters passed, assign env var of associated name and values.
-	for i := 0; i < len(ssmparams.Parameters); i++ {
-		k := strings.ReplaceAll(*ssmparams.Parameters[i].Name, os.Getenv("SSM_PARAMETER_PATH"), "") // Remove the path name
-		v := *ssmparams.Parameters[i].Value
+	for _, p := range ssmparams.Parameters {
+		k := strings.ReplaceAll(*p.Name, os.Getenv("SSM_PARAMETER_PATH"), "") // Remove the path name
+		v := *p.Value
 		os.Setenv(k, v)
 	} 
 }

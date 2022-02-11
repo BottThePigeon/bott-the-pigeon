@@ -84,7 +84,7 @@ func getS3Object(s3svc *s3.S3, bucketLoc string, objKey string) (*string, error)
 		return nil, s3req.Error
 	}
 
-	url, err := s3req.Presign(time.Minute*5)
+	url, err := s3req.Presign(time.Hour*24)
 
 	if err != nil {
 		return nil, err
