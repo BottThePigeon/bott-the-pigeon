@@ -7,7 +7,7 @@ import (
 )
 
 // Simple loop encapsulation to check if user has been mentioned
-func CheckForBotMention(bot *discordgo.Session, mentions []*discordgo.User) (bool) {
+func CheckForBotMention(bot *discordgo.Session, mentions []*discordgo.User) bool {
 	user, err := bot.User("@me")
 
 	if err != nil {
@@ -19,6 +19,6 @@ func CheckForBotMention(bot *discordgo.Session, mentions []*discordgo.User) (boo
 			return true
 		}
 	}
-	
-	return false;
+
+	return false
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-//  Handles Discord MessageCreate event and handles several relevant subconditions.
+//  Handles Discord MessageCreate event and handles several relevant subconditions
 func OnMessage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 
 	// Respond with random response if the bot is mentioned

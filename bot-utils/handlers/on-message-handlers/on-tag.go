@@ -2,7 +2,7 @@ package onmessagehandlers
 
 import "github.com/bwmarrin/discordgo"
 
-// Bot response to being tagged in a group.
+// Bot response to being tagged in a group
 func OnTag(bot *discordgo.Session, msg *discordgo.MessageCreate) {
-	bot.ChannelMessageSend(msg.ChannelID, "G'day, am Scott de racing pigeon.");
+	bot.ChannelMessageSend(msg.ChannelID, "G'day, am Scott de racing pigeon.")
 }

@@ -1,6 +1,6 @@
 # Bott The Pigeon
 
-Monorepo for the Discord Bot "Bott The Pigeon" (Or Scott the Pigeon). It is written entirely in Golang, using the [Discord API](https://github.com/bwmarrin/discordgo), and is cloud-native, using the [AWS SDK](https://github.com/aws/aws-sdk-go) wherever possible. Currently this is a super simple stack running on an ec2 t2.micro on-demand instance, with IAM access to SSM Parameter Store to get the bot credentials. It starts up and shuts down with the instance, and supports full CI/CD using CodePipeline (The very boilerplate-y .yml files will give you an idea). Oh - feature-wise, it just spits out a message when you tag it, but obviously that will change.
+Monorepo for the Discord Bot "Bott The Pigeon" (Or Scott the Pigeon). It is written entirely in Golang, using the [Discord API](https://github.com/bwmarrin/discordgo), and is cloud-native, using the [AWS SDK](https://github.com/aws/aws-sdk-go) wherever possible. Currently this is a super simple stack running on an ec2 t2.micro on-demand instance, with IAM access to SSM Parameter Store to get the bot credentials. It starts up and shuts down with the instance, and supports full CI/CD using CodePipeline (The very boilerplate-y .yml files will give you an idea).
 
 ## Usage Info:
  - Just do a `go build` or a `go run main.go`, if you have the AWS access keys (or you use your own and configure similar resources), it'll work.

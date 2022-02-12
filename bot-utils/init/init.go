@@ -4,7 +4,6 @@ import (
 	handlers "bott-the-pigeon/bot-utils/handlers"
 
 	"log"
-	"os"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -12,16 +11,18 @@ import (
 // Functions called by the initialisation process of a Discord bot.
 
 // Function caller for bot initialisation steps
-func InitBot(botTokenKey string) (*discordgo.Session) {
+func InitBot(botTokenKey string) *discordgo.Session {
 
 	// Instantiate Bot
-	bot, err := discordgo.New("Bot " + os.Getenv(botTokenKey))
+	bot, err := discordgo.New("Bot " + botTokenKey)
 	if err != nil {
 		log.Fatal("Could not initialise bot: ", err)
 	}
 
-	addHandlers(bot)
-	openBot(bot)
+	// Handlers can be added after opening a session,
+	// so we can run these concurrently with no worries.
+	go addHandlers(bot)
+	go openBot(bot)
 
 	return bot
 }
@@ -44,5 +45,5 @@ func openBot(bot *discordgo.Session) {
 	}
 
 	// Return success message
-	log.Println("Bot is running.");
+	log.Println("Bot is running.")
 }

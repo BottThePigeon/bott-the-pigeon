@@ -11,12 +11,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-// TODO: Refactors:
-// Modularise this a bit. It's likely we'll need GET requests to S3 elsewhere.
-// Code should be a bit more agnostic, and therefore reusable (i.e., passing in parameters a bit more).
-// Embedding < Actually sending the Base64 image (or something that isn't a link).
-// Note: If we do continue to embed (not ideal), maybe don't have an expiry time.
-// All of this could be solved potentially by moving S3 get requests into its own module, as an API - maybe use Lambda?
+// TODO: This will be refactored - most of which will probably be in its own Lambda
 
 // Bot response to "!pigeon" - sending an image.
 func OnPigeon(bot *discordgo.Session, msg *discordgo.MessageCreate) {
@@ -31,8 +26,8 @@ func getBotImageResponse(bot *discordgo.Session, msg *discordgo.MessageCreate) (
 		log.Println("Could not retrieve image from S3 bucket: ", err)
 	}
 
-	img := &discordgo.MessageEmbed {
-		Image: &discordgo.MessageEmbedImage {
+	img := &discordgo.MessageEmbed{
+		Image: &discordgo.MessageEmbedImage{
 			URL: *imgUrl,
 		},
 	}
@@ -40,8 +35,8 @@ func getBotImageResponse(bot *discordgo.Session, msg *discordgo.MessageCreate) (
 	return img
 }
 
-// Wrapper (providing parameters etc. to make it's called functions more agnostic) to pull a random object from S3.
-// (In our case, an image).
+// Wrapper (providing parameters etc. to make its called functions more agnostic)
+// to pull a random object from S3. (In our case, an image).
 func getRandomImageFromS3() (*string, error) {
 	s3svc := s3.New(awssess.GetAWSSession())
 	bucketLoc := "btp-pigeon-pics"
@@ -57,9 +52,9 @@ func getRandomImageFromS3() (*string, error) {
 }
 
 // Returns a random item from a specified bucket.
-func getRandomS3Key(s3svc *s3.S3, bucketLoc string) (string) {
+func getRandomS3Key(s3svc *s3.S3, bucketLoc string) string {
 
-	objList, err := s3svc.ListObjects( &s3.ListObjectsInput{
+	objList, err := s3svc.ListObjects(&s3.ListObjectsInput{
 		Bucket: &bucketLoc,
 	})
 
@@ -73,18 +68,18 @@ func getRandomS3Key(s3svc *s3.S3, bucketLoc string) (string) {
 	return randomKey
 }
 
-// Returns a presigned URL for access to an S3 object based upon the bucket and key provided.
+// Returns a presigned URL for access to an S3 object based on the bucket and key.
 func getS3Object(s3svc *s3.S3, bucketLoc string, objKey string) (*string, error) {
-	s3req, _ := s3svc.GetObjectRequest( &s3.GetObjectInput {
+	s3req, _ := s3svc.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: &bucketLoc,
-		Key: &objKey,
+		Key:    &objKey,
 	})
 
 	if s3req.Error != nil {
 		return nil, s3req.Error
 	}
 
-	url, err := s3req.Presign(time.Hour*24)
+	url, err := s3req.Presign(time.Hour * 24)
 
 	if err != nil {
 		return nil, err
