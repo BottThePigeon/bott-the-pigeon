@@ -19,7 +19,7 @@ func OnPigeon(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 }
 
 // Generate a MessageEmbed struct using image URL.
-func getBotImageResponse(bot *discordgo.Session, msg *discordgo.MessageCreate) (*discordgo.MessageEmbed) {
+func getBotImageResponse(bot *discordgo.Session, msg *discordgo.MessageCreate) *discordgo.MessageEmbed {
 	imgUrl, err := getRandomImageFromS3()
 
 	if err != nil {

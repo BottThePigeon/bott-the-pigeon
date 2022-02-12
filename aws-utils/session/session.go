@@ -13,7 +13,7 @@ var (
 	awssess *session.Session
 )
 
-// Return the stored AWS Session or create one if not. 
+// Return the stored AWS Session or create one if not.
 // Therefore, initialisation code should only run once.
 func GetAWSSession() *session.Session {
 
@@ -21,7 +21,7 @@ func GetAWSSession() *session.Session {
 		return awssess
 	} else {
 		sess, err := session.NewSessionWithOptions(session.Options{
-			Config: aws.Config{Region: aws.String(os.Getenv("AWS_REGION"))},
+			Config:            aws.Config{Region: aws.String(os.Getenv("AWS_REGION"))},
 			SharedConfigState: session.SharedConfigEnable,
 		})
 		if err != nil {

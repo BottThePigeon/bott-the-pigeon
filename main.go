@@ -48,10 +48,8 @@ func main() {
 	addCloseListener()
 }
 
-// CONFIGS/FLAGS - (TODO) Maybe these could go somewhere else?
-
 // Miscellaneous (and non-confidential) environment variable initialisation
-//(That doesn't need AWS) goes here
+// (That doesn't need AWS) goes here
 func initEnv() {
 	os.Setenv("AWS_REGION", "eu-west-2")     // AWS SDK Session Region
 	os.Setenv("SSM_PARAMETER_PATH", "/btp/") // SSM location of project variables.
