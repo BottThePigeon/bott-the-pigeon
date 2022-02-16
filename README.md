@@ -23,9 +23,11 @@ Monorepo for the Discord Bot "Bott The Pigeon" (Or Scott the Pigeon). It is writ
       - Package: Init
       - Package: Handlers
          - Package: On-Message-Handlers (Since many different kinds of events can occur based on a message being sent.)
-   - Package: TESTS
 
 ## Naming Conventions:
- Golang naming conventions are pretty interesting with regards to capitalisation and camel casing, but follow those. Additionally, folders and files should be lower-case and hyphenated. We can use _* to indicate some sort of functional distinction, such as _test for test files, so ensure hyphens are instead used for word spacing. For example, bot-utils/on-message. Packages should match the folder structure - packages cannot contain hyphens, so should simply be an un-hyphenated version of the folder name. A bit ugly, but any possible ambiguity is removed by the folder name.
+ Golang naming conventions are pretty interesting with regards to capitalisation and camel casing, but follow those. Additionally, folders and files should be lower-case and hyphenated. We can use _* to indicate some sort of functional distinction, such as _test for test files, so ensure hyphens are instead used for word spacing. For example, bot-utils/on-message. Packages should match the folder structure - packages cannot contain hyphens, so should simply be an un-hyphenated version of the folder name. A bit ugly, but any possible ambiguity is removed by the folder name. Any types should be named as {CATEGORY}\_{ACTION}\_{USAGE} - for example, Response\_Get\_TestAPI for storing the response from a GET request to API "TestAPI".
+
+## Formatting Conventions:
+ Should follow format according to `go fmt`. However, when running `go fmt`, only run it on the files you intend to be working on within that commit anyway. Otherwise, it becomes hard to tell what code has logically changed and what code has just been formatted differently (Git diff usually figures it out, but the confusion can definitely happen).
 
 ## [TODO](https://github.com/users/adad-mitch/projects/1)

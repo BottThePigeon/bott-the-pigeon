@@ -26,8 +26,8 @@ func main() {
 
 		// All need to be run sequentially
 		initEnv()
-		aws.GetAWSSession()
-		awsenv.InitEnv()
+		awssess := aws.GetAWSSession()
+		awsenv.InitEnv(awssess)
 	}()
 
 	var botTokenKey string
@@ -41,7 +41,7 @@ func main() {
 
 	wg.Wait()
 
-	// Return a bot instance. Everything happens in here.
+	// Return a bot instance. Everything happens in here
 	bot := bot.InitBot(os.Getenv(botTokenKey))
 	defer bot.Close()
 
@@ -51,9 +51,12 @@ func main() {
 // Miscellaneous (and non-confidential) environment variable initialisation
 // (That doesn't need AWS) goes here
 func initEnv() {
-	os.Setenv("AWS_REGION", "eu-west-2")     // AWS SDK Session Region
-	os.Setenv("SSM_PARAMETER_PATH", "/btp/") // SSM location of project variables.
-	// The EC2 instance shouldn't have permission to parameters outside this path.
+	os.Setenv("GITHUB_REPO_ACCOUNT", "BottThePigeon")	  //The org that the repo belongs to
+	os.Setenv("GITHUB_PROJECT_ID", "1")                   // The ID of the repo-associated project
+	os.Setenv("GITHUB_SUGGESTIONS_COLUMN_ID", "17803319") // Where GH suggestions go
+	os.Setenv("AWS_REGION", "eu-west-2")                  // AWS SDK Session Region
+	os.Setenv("AWS_SSM_PARAMETER_PATH", "/btp/")          // SSM location of project variables
+	// The EC2 instance shouldn't have permission to parameters outside this path
 }
 
 // Flag configurations for the application

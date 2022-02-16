@@ -17,6 +17,9 @@ func OnMessage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 		strings.Contains(msg.Content, "support"):
 		handlers.OnHelp(bot, msg)
 
+	case strings.Contains(msg.Content, ">todo"):
+		handlers.OnTodo(bot, msg)
+
 	case strings.Contains(msg.Content, ">pigeon"):
 		handlers.OnPigeon(bot, msg)
 
