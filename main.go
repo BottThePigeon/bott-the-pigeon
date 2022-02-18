@@ -3,7 +3,7 @@ package main
 import (
 	awsenv "bott-the-pigeon/aws-utils/aws-env"
 	aws "bott-the-pigeon/aws-utils/session"
-	bot "bott-the-pigeon/bot-utils/init"
+	bot "bott-the-pigeon/bot-utils/session"
 
 	"flag"
 	"os"
@@ -42,7 +42,7 @@ func main() {
 	wg.Wait()
 
 	// Return a bot instance. Everything happens in here
-	bot := bot.InitBot(os.Getenv(botTokenKey))
+	bot := bot.GetBotSession(os.Getenv(botTokenKey))
 	defer bot.Close()
 
 	addCloseListener()
