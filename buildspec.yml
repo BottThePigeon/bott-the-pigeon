@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    GO_VERSION: 1.17.6
+    GO_VERSION: 1.17.7
 
 phases:
   install:
