@@ -1,8 +1,19 @@
 package onmessagehandlers
 
-import "github.com/bwmarrin/discordgo"
+import (
+	e "bott-the-pigeon/bot-utils/errors"
+	"log"
 
-// Bot response to being tagged in a group
-func OnTag(bot *discordgo.Session, msg *discordgo.MessageCreate) {
-	bot.ChannelMessageSend(msg.ChannelID, "G'day, am Scott de racing pigeon. Tag me with \"support\" for help.")
+	"github.com/bwmarrin/discordgo"
+)
+
+// Sends a simple message from the provided bot.
+func OnTag(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
+	_, err := bot.ChannelMessageSend(msg.ChannelID, "G'day, am Scott de racing pigeon. Tag me with \"support\" for help.")
+	if err != nil {
+		log.Println("failed to send simple message: ", err)
+		e.ThrowBotError(bot, msg.ChannelID, err)
+		return err
+	}
+	return nil
 }
