@@ -25,13 +25,13 @@ type Response_Post_GHProjectCard struct {
 // Creates a new Todo on the repo's associated GitHub project.
 func OnTodo(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
 	todo := strings.TrimSpace(strings.Replace(msg.Content, ">todo", "", 1))
-	cardID, err := botCreateGitHubTodo(os.Getenv("GITHUB_PROJECTS_ACCESS_TOKEN"), os.Getenv("GITHUB_SUGGESTIONS_COLUMN_ID"), todo)
+	cardID, err := createGHTodo(os.Getenv("GITHUB_PROJECTS_ACCESS_TOKEN"), os.Getenv("GITHUB_SUGGESTIONS_COLUMN_ID"), todo)
 	if err != nil {
 		e.ThrowBotError(bot, msg.ChannelID, err)
 		return err
 	}
-	cardLink := genGHProjectCardLink(os.Getenv(""), os.Getenv("GITHUB_PROJECT_ID"), strconv.Itoa(*cardID))
-	res := getGitHubTodoSuccessMessage(cardLink)
+	cardLink := genGHProjectCardLink(os.Getenv("GITHUB_REPO_ACCOUNT"), os.Getenv("GITHUB_PROJECT_ID"), strconv.Itoa(*cardID))
+	res := genGHTodoSuccessMessage(cardLink)
 	_, err = bot.ChannelMessageSendEmbed(msg.ChannelID, res)
 	if err != nil {
 		e.ThrowBotError(bot, msg.ChannelID, err)
@@ -41,8 +41,8 @@ func OnTodo(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
 }
 
 // Sends a todo to the repo's GitHub project using the provided text.
-func botCreateGitHubTodo(ghAccessToken string, ghProjectColumnID string, todoText string) (*int, error) {
-	req, err := genGHProjectCardPostRequest(todoText, ghProjectColumnID, ghAccessToken)
+func createGHTodo(ghAccessToken string, ghProjectColumnID string, todoText string) (*int, error) {
+	req, err := getGHProjectCardPostRequest(ghAccessToken, ghProjectColumnID, todoText)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func genGHProjectCardLink(account string, projectID string, cardID string) strin
 }
 
 // Returns a Discord message for successful GitHub Todo creation.
-func getGitHubTodoSuccessMessage(link string) *discordgo.MessageEmbed {
+func genGHTodoSuccessMessage(link string) *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
 		Title:       "To-Do added successfully.",
 		Description: fmt.Sprintf("Cheers lad, your suggestion was added to the To-Do list [here](%v).", link),
@@ -72,14 +72,14 @@ func getGitHubTodoSuccessMessage(link string) *discordgo.MessageEmbed {
 }
 
 // Generates a GitHub Project Card creation HTTP POST request
-func genGHProjectCardPostRequest(todoText string, ghProjectColumnID string, ghAccessToken string) (*http.Request, error) {
+func getGHProjectCardPostRequest(ghAccessToken string, ghProjectColumnID string, todoText string) (*http.Request, error) {
 	reqBody, err := genGHProjectCardPostBody(todoText)
 	if err != nil {
 		return nil, err
 	}
 
 	reqBuffer := bytes.NewBuffer(reqBody)
-	req, err := getGHProjectCardPostRequest(reqBuffer, ghProjectColumnID)
+	req, err := genGHProjectCardPostRequest(reqBuffer, ghProjectColumnID)
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func genGHProjectCardPostBody(cardText string) ([]byte, error) {
 }
 
 // Generates a HTTP POST request to create a new GitHub project card using a body buffer
-func getGHProjectCardPostRequest(buffer *bytes.Buffer, columnID string) (*http.Request, error) {
+func genGHProjectCardPostRequest(buffer *bytes.Buffer, columnID string) (*http.Request, error) {
 	endpoint := fmt.Sprintf("https://api.github.com/projects/columns/%v/cards", columnID)
 	req, err := http.NewRequest("POST", endpoint, buffer)
 	if err != nil {
@@ -132,7 +132,7 @@ func getGHProjectCardPostRequest(buffer *bytes.Buffer, columnID string) (*http.R
 
 // Adds the necessary headers to the provided GitHub Project Card POST request
 func addGHProjectCardPostRequestHeaders(req *http.Request, ghAccessToken string) *http.Request {
-	req.Header.Add("Authorization", "Bearer " + os.Getenv("GITHUB_PROJECTS_ACCESS_TOKEN"))
+	req.Header.Add("Authorization", "Bearer " + ghAccessToken)
 	return req
 }
 
