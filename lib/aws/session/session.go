@@ -9,11 +9,10 @@ import (
 )
 
 // The AWS SDK Session pointer is stored, and can be accessed later.
-var (
-	awssess *session.Session
-)
+var awssess *session.Session
 
-// Return the stored AWS Session or create one if it doesn't exist.
+// Returns the stored AWS Session or creates one if it doesn't exist,
+// using the credentials of the instance.
 func GetAWSSession() (*session.Session, error) {
 	if awssess != nil {
 		return awssess, nil

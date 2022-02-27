@@ -1,8 +1,8 @@
 package onmessagehandlers
 
 import (
-	awssess "bott-the-pigeon/aws-utils/session"
-	e "bott-the-pigeon/bot-utils/errors"
+	e "bott-the-pigeon/app/errors"
+	awssess "bott-the-pigeon/lib/aws/session"
 	"fmt"
 	"io"
 

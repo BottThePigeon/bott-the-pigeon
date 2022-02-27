@@ -1,9 +1,9 @@
 package main
 
 import (
-	aws "bott-the-pigeon/aws-utils/session"
-	ssm "bott-the-pigeon/aws-utils/ssm-env"
-	bot "bott-the-pigeon/bot-utils/session"
+	bot "bott-the-pigeon/app/session"
+	aws "bott-the-pigeon/lib/aws/session"
+	ssm "bott-the-pigeon/lib/aws/ssm-env"
 	"fmt"
 	"log"
 
