@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// Wraps http.NewRequest with the removal of the need for a premade buffer.
+// Wraps http.NewRequest with removal of the need for a premade buffer.
 func CreateHTTPRequest(method string, url string, body interface{}) (*http.Request, error) {
 	bodyJson, err := json.Marshal(body)
 	if err != nil {

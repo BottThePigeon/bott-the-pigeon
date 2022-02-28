@@ -19,13 +19,13 @@ func OnMessage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 	}
 
 	switch {
-	case mention && strings.Contains(msg.Content, "support"):
+	case strings.HasPrefix(msg.Content, ">support"):
 		handlers.OnHelp(bot, msg)
 
-	case strings.Contains(msg.Content, ">pigeon"):
+	case strings.HasPrefix(msg.Content, ">pigeon"):
 		handlers.OnImage(bot, msg)
 
-	case strings.Contains(msg.Content, ">todo"):
+	case strings.HasPrefix(msg.Content, ">todo"):
 		handlers.OnTodo(bot, msg)
 
 	case mention:

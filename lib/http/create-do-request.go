@@ -5,13 +5,14 @@ import (
 	"io/ioutil"
 )
 
+// HTTP_Request object. Body should be a KV map.
 type HTTP_Request struct {
 	Method string
 	URL    string
 	Body   interface{}
 }
 
-// Wrapper for creating and making a HTTP Request, returning the parsed response body.
+// Wrapper for creating and doing a HTTP Request, returning the parsed response body.
 // This is a HTTP (over)simplification to speed up basic API calls.
 func CreateDoHTTPRequest(params HTTP_Request, headers map[string]string, successCode int) ([]byte, error) {
 	req, err := CreateHTTPRequest(params.Method, params.URL, params.Body)
