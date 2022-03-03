@@ -1,8 +1,8 @@
 package onmessagehandlers
 
 import (
-	e "bott-the-pigeon/app/errors"
-	client "bott-the-pigeon/lib/http"
+	e "bott-the-pigeon/app/error"
+	client "bott-the-pigeon/lib/http/util"
 	"fmt"
 	"strings"
 

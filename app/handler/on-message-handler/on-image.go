@@ -1,7 +1,7 @@
 package onmessagehandlers
 
 import (
-	e "bott-the-pigeon/app/errors"
+	e "bott-the-pigeon/app/error"
 	awssess "bott-the-pigeon/lib/aws/session"
 	"fmt"
 	"io"
@@ -37,7 +37,7 @@ func OnImage(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
 
 // Returns a random object from a specified S3 bucket.
 func getRandomObjectFromS3(bucket string) (*S3_ObjectWithKey, error) {
-	awssess, err := awssess.GetAWSSession()
+	awssess, err := awssess.GetSession()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get AWS session: %v", err)
 	}
@@ -80,6 +80,5 @@ func getS3ObjectIOStream(s3svc *s3.S3, bucketLoc string, objKey string) (io.Read
 	if err != nil {
 		return nil, fmt.Errorf("failed to get object %v from bucket %v: %v", objKey, bucketLoc, err)
 	}
-	fmt.Println(s3out)
 	return s3out.Body, nil
 }

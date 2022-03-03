@@ -2,8 +2,8 @@ package handlers
 
 import (
 	c "bott-the-pigeon/app/common"
-	e "bott-the-pigeon/app/errors"
-	handlers "bott-the-pigeon/app/handlers/on-message-handlers"
+	e "bott-the-pigeon/app/error"
+	handlers "bott-the-pigeon/app/handler/on-message-handler"
 
 	"strings"
 

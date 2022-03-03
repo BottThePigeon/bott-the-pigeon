@@ -1,7 +1,7 @@
 package onmessagehandlers
 
 import (
-	e "bott-the-pigeon/app/errors"
+	e "bott-the-pigeon/app/error"
 	"log"
 
 	"github.com/bwmarrin/discordgo"

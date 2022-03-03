@@ -1,7 +1,7 @@
-package session
+package app
 
 import (
-	handlers "bott-the-pigeon/app/handlers"
+	handlers "bott-the-pigeon/app/handler"
 	"fmt"
 
 	"log"
@@ -9,12 +9,12 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-// The Bot Session pointer is stored, and can be accessed later.
+// The Bot session pointer is stored, and can be accessed later.
 var bot *discordgo.Session
 
-// Returns the stored Bot Session or creates one if it doesn't exist, 
+// Returns the stored Bot session or creates one if it doesn't exist, 
 // using the provided token.
-func GetBotSession(token string) (*discordgo.Session, error) {
+func GetSession(token string) (*discordgo.Session, error) {
 	if bot != nil {
 		return bot, nil
 	} else {

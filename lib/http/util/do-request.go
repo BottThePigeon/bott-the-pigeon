@@ -1,4 +1,4 @@
-package httputils
+package utils
 
 import (
 	c "bott-the-pigeon/lib/http/client"

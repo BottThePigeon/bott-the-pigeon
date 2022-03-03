@@ -8,12 +8,12 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 )
 
-// The AWS SDK Session pointer is stored, and can be accessed later.
+// The AWS SDK session pointer is stored, and can be accessed later.
 var awssess *session.Session
 
-// Returns the stored AWS Session or creates one if it doesn't exist,
+// Returns the stored AWS session or creates one if it doesn't exist,
 // using the credentials of the instance.
-func GetAWSSession() (*session.Session, error) {
+func GetSession() (*session.Session, error) {
 	if awssess != nil {
 		return awssess, nil
 	} else {

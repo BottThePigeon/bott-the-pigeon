@@ -4,13 +4,26 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
 )
 
+// The SSM client pointer is stored, and can be accessed later.
+var ssmsvc *ssm.SSM
+
+// Returns the stored SSM client or creates one if it doesn't exist,
+// using the provided AWS session.
+func getClient(awssess *session.Session) (*ssm.SSM) {
+	if ssmsvc != nil {
+		return ssmsvc
+	} else {
+		ssmsvc := ssm.New(awssess)
+		return ssmsvc
+	}
+}
+
 // Gets environment vars from the provided AWS SSM parameter store path (With an valid session).
-func GetEnv(awssess *session.Session, ssmPath string) (map[string]string, error) {
+func Getenv(awssess *session.Session, ssmPath string) (map[string]string, error) {
 	ssmEnv, err := getEnvFromSSM(awssess, ssmPath)
 	if err != nil {
 		return nil, err
@@ -21,7 +34,7 @@ func GetEnv(awssess *session.Session, ssmPath string) (map[string]string, error)
 
 // Retrieves the environment variables from AWS.
 func getEnvFromSSM(awssess *session.Session, ssmPath string) (*ssm.GetParametersByPathOutput, error) {
-	ssmsvc := ssm.New(awssess, aws.NewConfig())
+	ssmsvc := getClient(awssess)
 	withDecryption := true
 	ssmparams, err := ssmsvc.GetParametersByPath(&ssm.GetParametersByPathInput{
 		Path:           &ssmPath,

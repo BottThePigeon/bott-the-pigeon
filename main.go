@@ -2,8 +2,8 @@ package main
 
 import (
 	bot "bott-the-pigeon/app/session"
+	ssm "bott-the-pigeon/lib/aws/service/ssm-env"
 	aws "bott-the-pigeon/lib/aws/session"
-	ssm "bott-the-pigeon/lib/aws/ssm-env"
 	"fmt"
 	"log"
 
@@ -19,19 +19,19 @@ func main() {
 
 	config := *flagHandler()
 	botTokenKey := getBotTokenKey(*config.prod)
-	
+
 	// This is the only place where logs can (should) be fatal, and terminate the app.
 	err := setEnvs(getConfigs())
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	awssess, err := aws.GetAWSSession()
+	awssess, err := aws.GetSession()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ssmEnv, err := ssm.GetEnv(awssess, os.Getenv("AWS_SSM_PARAMETER_PATH"))
+	ssmEnv, err := ssm.Getenv(awssess, os.Getenv("AWS_SSM_PARAMETER_PATH"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +41,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	bot, err := bot.GetBotSession(os.Getenv(botTokenKey))
+	bot, err := bot.GetSession(os.Getenv(botTokenKey))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,8 +56,9 @@ func getConfigs() map[string]string {
 	env := make(map[string]string)
 	env["GITHUB_REPO_ACCOUNT"] = "BottThePigeon"
 	env["GITHUB_PROJECT_ID"] = "1"
-	env["GITHUB_SUGGESTIONS_COLUMN_ID"] = "17803319"
+	env["GITHUB_SUGGESTIONS_COLUMN_ID"] = "17943099"
 	env["AWS_SSM_PARAMETER_PATH"] = "/btp/"
+	env["AWS_CW_ERROR_LOG_GROUP"] = "bot-error"
 	return env
 }
 
