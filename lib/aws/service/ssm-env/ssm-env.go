@@ -1,6 +1,8 @@
 package ssmenv
 
 import (
+	aws "bott-the-pigeon/lib/aws/session"
+
 	"fmt"
 	"strings"
 
@@ -23,7 +25,11 @@ func getClient(awssess *session.Session) (*ssm.SSM) {
 }
 
 // Gets environment vars from the provided AWS SSM parameter store path (With an valid session).
-func Getenv(awssess *session.Session, ssmPath string) (map[string]string, error) {
+func Getenv(ssmPath string) (map[string]string, error) {
+	awssess, err := aws.GetSession()
+	if err != nil {
+		return nil, err
+	}
 	ssmEnv, err := getEnvFromSSM(awssess, ssmPath)
 	if err != nil {
 		return nil, err

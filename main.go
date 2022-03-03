@@ -17,38 +17,44 @@ import (
 
 func main() {
 
+	// This is the only place where logs can (should) be fatal, and terminate the app.
+	// Flag management; whether to use test or prod configs.
 	config := *flagHandler()
 	botTokenKey := getBotTokenKey(*config.prod)
 
-	// This is the only place where logs can (should) be fatal, and terminate the app.
+	// Set any non-confidential configs (stored in repo, in getConfigs()).
 	err := setEnvs(getConfigs())
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	awssess, err := aws.GetSession()
+	// Initialise a session with AWS.
+	_, err = aws.GetSession()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ssmEnv, err := ssm.Getenv(awssess, os.Getenv("AWS_SSM_PARAMETER_PATH"))
+	// Get credentials from SSM not to be stored in repo.
+	ssmEnv, err := ssm.Getenv(os.Getenv("AWS_SSM_PARAMETER_PATH"))
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Add new environment variables based on those returned from SSM.
 	err = setEnvs(ssmEnv)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Create a Discord bot session. This is where most of the magic happens.
 	bot, err := bot.GetSession(os.Getenv(botTokenKey))
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Closure functions
 	defer bot.Close()
 	addCloseListener()
-
 }
 
 // Returns a k,v map of base configs. NON-SENSITIVE CONFIGS GO HERE.

@@ -1,6 +1,8 @@
 package cwlogger
 
 import (
+	aws "bott-the-pigeon/lib/aws/session"
+
 	"fmt"
 	"time"
 
@@ -31,14 +33,18 @@ func getClient(awssess *session.Session) (*cloudwatchlogs.CloudWatchLogs) {
 }
 
 // Returns a UUID and asynchronously creates a correlating log.
-func Log(awssess *session.Session, logGroup string, message string) (*string, error) {
+func Log(logGroup string, message string) (*string, error) {
+	awssess, err := aws.GetSession()
+	if err != nil {
+		return nil, err
+	}
 	uuid := uuid.New().String()
 	params := &CloudWatch_Log{
 		LogGroup: logGroup,
 		LogStream: uuid,
 		Message: message,
 	}
-	err := createCWLog(awssess, params)
+	err = createCWLog(awssess, params)
 	if err != nil {
 		return nil, err
 	}

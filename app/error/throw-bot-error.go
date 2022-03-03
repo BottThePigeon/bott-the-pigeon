@@ -2,7 +2,6 @@ package errors
 
 import (
 	logger "bott-the-pigeon/lib/aws/service/cw-logger"
-	aws "bott-the-pigeon/lib/aws/session"
 	"fmt"
 	"log"
 	"os"
@@ -13,17 +12,13 @@ import (
 // Sends the provided error message using the provided bot.
 func ThrowBotError(bot *discordgo.Session, channel string, e error) {
 	log.Println(e)
-	awssess, err := aws.GetSession()
-	if err != nil {
-		log.Println(err)
-	}
-	uuid, err := logger.Log(awssess, os.Getenv("AWS_CW_ERROR_LOG_GROUP"), e.Error())
+	uuid, err := logger.Log(os.Getenv("AWS_CW_ERROR_LOG_GROUP"), e.Error())
 	var footer string
 	if err != nil {
 		footer = "(I failed to store the error log too! God I'm a pencil.)"
 		log.Println(err)
 	} else {
-		footer = fmt.Sprintf("ERR_GUID: %v", *uuid)
+		footer = fmt.Sprintf("BEEP BOOP: %v", *uuid)
 	}
 	_, err = bot.ChannelMessageSendEmbed(channel, &discordgo.MessageEmbed{
 		Title:       "Uh-oh. Something went wrong.",
