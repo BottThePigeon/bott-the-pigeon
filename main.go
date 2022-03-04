@@ -110,7 +110,6 @@ func getBotTokenKey(isProd bool) string {
 
 // Waits for a termination/kill etc. signal (Holding the application open).
 func addCloseListener() {
-
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sigChan

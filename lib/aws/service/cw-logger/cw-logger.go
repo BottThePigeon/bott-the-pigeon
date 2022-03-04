@@ -32,7 +32,7 @@ func getClient(awssess *session.Session) (*cloudwatchlogs.CloudWatchLogs) {
 	}
 }
 
-// Returns a UUID and asynchronously creates a correlating log.
+// Returns a UUID and creates a correlating log.
 func Log(logGroup string, message string) (*string, error) {
 	awssess, err := aws.GetSession()
 	if err != nil {
