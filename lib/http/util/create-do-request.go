@@ -1,21 +1,16 @@
 package utils
 
 import (
+	http "bott-the-pigeon/lib/http"
+
 	"fmt"
 	"io/ioutil"
 )
 
-// HTTP_Request object. Body should be a KV map.
-type HTTP_Request struct {
-	Method string
-	URL    string
-	Body   interface{}
-}
-
 // Wrapper for creating and doing a HTTP Request, returning the parsed response body.
 // This is a HTTP (over)simplification to speed up basic API calls.
-func CreateDoHTTPRequest(params HTTP_Request, headers map[string]string, successCode int) ([]byte, error) {
-	req, err := CreateHTTPRequest(params.Method, params.URL, params.Body)
+func CreateDoHTTPRequest(params http.HTTP_Request, headers map[string]string, successCode int) ([]byte, error) {
+	req, err := CreateHTTPRequest(params)
 	if err != nil {
 		return nil, err
 	}

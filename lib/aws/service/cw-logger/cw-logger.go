@@ -38,20 +38,20 @@ func Log(logGroup string, message string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	uuid := uuid.New().String()
+	streamUUID := uuid.New().String()
 	params := &CloudWatch_Log{
 		LogGroup: logGroup,
-		LogStream: uuid,
+		LogStream: streamUUID,
 		Message: message,
 	}
 	err = createCWLog(awssess, params)
 	if err != nil {
 		return nil, err
 	}
-	return &uuid, nil
+	return &streamUUID, nil
 }
 
-// Creates a CloudWatch log with the provided CloudWatch_Log parameters.
+// Creates a CloudWatch log event with the provided CloudWatch_Log params.
 func createCWLog(awssess *session.Session, params *CloudWatch_Log) error {
 	cwsvc := getClient(awssess)
 	err := ensureLogGroupExists(cwsvc, params.LogGroup)
@@ -94,21 +94,12 @@ func ensureLogGroupExists(cwsvc *cloudwatchlogs.CloudWatchLogs, name string) err
 		return fmt.Errorf("failed to list existing log groups; cannot ensure log group exists: %v", err)
 	}
 	if len(lgs.LogGroups) < 1 {
-		err := createLogGroup(cwsvc, name)
+		_, err := cwsvc.CreateLogGroup(&cloudwatchlogs.CreateLogGroupInput{
+			LogGroupName: &name,
+		})
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to create log group: %v", err)
 		}
-	}
-	return nil
-}
-
-// Creates a CloudWatch log group using the service and the log group name provided.
-func createLogGroup(cwsvc *cloudwatchlogs.CloudWatchLogs, name string) error {
-	_, err := cwsvc.CreateLogGroup(&cloudwatchlogs.CreateLogGroupInput{
-		LogGroupName: &name,
-	})
-	if err != nil {
-		return fmt.Errorf("failed to create log group: %v", err)
 	}
 	return nil
 }

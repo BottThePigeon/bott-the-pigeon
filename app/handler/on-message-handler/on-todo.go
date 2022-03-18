@@ -2,6 +2,7 @@ package onmessagehandlers
 
 import (
 	e "bott-the-pigeon/app/error"
+	httputil "bott-the-pigeon/lib/http"
 	client "bott-the-pigeon/lib/http/util"
 	"fmt"
 	"strings"
@@ -41,7 +42,7 @@ func createGHTodo(ghAccessToken string, ghProjectColumnID string, todoText strin
 	reqBody := map[string]string{
 		"note": todoText,
 	}
-	reqParams := &client.HTTP_Request{
+	reqParams := &httputil.HTTP_Request{
 		Method: "POST",
 		URL: 	fmt.Sprintf("https://api.github.com/projects/columns/%v/cards", ghProjectColumnID),
 		Body:	reqBody,

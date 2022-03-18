@@ -13,8 +13,7 @@ import (
 	"syscall"
 )
 
-// Note: main should give a high-level overview of the E2E flow of the application.
-
+// main should give a high-level E2E of the application.
 func main() {
 
 	// This is the only place where logs can (should) be fatal, and terminate the app.
@@ -57,31 +56,9 @@ func main() {
 	addCloseListener()
 }
 
-// Returns a k,v map of base configs. NON-SENSITIVE CONFIGS GO HERE.
-func getConfigs() map[string]string {
-	env := make(map[string]string)
-	env["GITHUB_REPO_ACCOUNT"] = "BottThePigeon"
-	env["GITHUB_PROJECT_ID"] = "1"
-	env["GITHUB_SUGGESTIONS_COLUMN_ID"] = "17943099"
-	env["AWS_SSM_PARAMETER_PATH"] = "/btp/"
-	env["AWS_CW_ERROR_LOG_GROUP"] = "bot-error"
-	return env
-}
 
-// Initialises environment based upon provided k,v map.
-func setEnvs(env map[string]string) error {
-	errs := []error{}
-	for k, v := range env {
-		err := os.Setenv(k, v)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	if len(errs) > 0 {
-		return fmt.Errorf("failed env variable initialisation. error(s): %v", errs)
-	}
-	return nil
-}
+
+// MAIN UTILS
 
 // Flag configurations for the application.
 type flagConfig struct {
@@ -106,6 +83,32 @@ func getBotTokenKey(isProd bool) string {
 		botTokenKey = "BOT_TOKEN"
 	}
 	return botTokenKey
+}
+
+// Returns a k,v map of base configs. NON-SENSITIVE CONFIGS GO HERE.
+func getConfigs() map[string]string {
+	env := make(map[string]string)
+	env["GITHUB_REPO_ACCOUNT"] = "BottThePigeon"
+	env["GITHUB_PROJECT_ID"] = "1"
+	env["GITHUB_SUGGESTIONS_COLUMN_ID"] = "17943099"
+	env["AWS_SSM_PARAMETER_PATH"] = "/btp/"
+	env["AWS_CW_ERROR_LOG_GROUP"] = "bot-error"
+	return env
+}
+
+// Sets environment based upon provided k,v map.
+func setEnvs(env map[string]string) error {
+	errs := []error{}
+	for k, v := range env {
+		err := os.Setenv(k, v)
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("failed env variable initialisation. error(s): %v", errs)
+	}
+	return nil
 }
 
 // Waits for a termination/kill etc. signal (Holding the application open).
