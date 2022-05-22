@@ -18,7 +18,7 @@ func OnMessage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 		e.ThrowBotError(bot, msg.ChannelID, err)
 	}
 
-	switch {
+	switch {	
 	case strings.HasPrefix(strings.ToLower(msg.Content), ">support"):
 		handlers.OnHelp(bot, msg)
 

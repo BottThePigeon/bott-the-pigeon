@@ -23,17 +23,17 @@ var cwsvc *cloudwatchlogs.CloudWatchLogs
 
 // Returns the stored CloudWatch client or creates one if it doesn't exist,
 // using the provided AWS session.
-func getClient(awssess *session.Session) (*cloudwatchlogs.CloudWatchLogs) {
+func getClient(awssess *session.Session) *cloudwatchlogs.CloudWatchLogs {
 	if cwsvc != nil {
 		return cwsvc
 	} else {
-		ssmsvc := cloudwatchlogs.New(awssess)
-		return ssmsvc
+		cwsvc := cloudwatchlogs.New(awssess)
+		return cwsvc
 	}
 }
 
 // Returns a UUID and creates a correlating log.
-func Log(logGroup string, message string) (*string, error) {
+func Log(logGroup, message string) (*string, error) {
 	awssess, err := aws.GetSession()
 	if err != nil {
 		return nil, err

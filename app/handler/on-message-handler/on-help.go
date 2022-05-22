@@ -8,7 +8,7 @@ import (
 )
 
 // Sends a bot usage help message from the provided bot.
-func OnHelp(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
+func OnHelp(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 	_, err := bot.ChannelMessageSend(msg.ChannelID,
 		"Hello! My command prefix is a `>`. Get it? Because it looks like a beak.\n\n"+
 			"**Commands**:\n"+
@@ -19,8 +19,7 @@ func OnHelp(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
 	if err != nil {
 		err = fmt.Errorf("failed to send help message: %v", err)
 		e.ThrowBotError(bot, msg.ChannelID, err)
-		return err
+		return
 	}
-	return nil
 }
 // TODO: This is very hard-coded, and should be called from an API in some way.

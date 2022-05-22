@@ -2,9 +2,9 @@ package onmessagehandlers
 
 import (
 	e "bott-the-pigeon/app/error"
+	s3utils "bott-the-pigeon/lib/aws/service/s3"
 	awssess "bott-the-pigeon/lib/aws/session"
 	"fmt"
-	"io"
 
 	"math/rand"
 
@@ -12,17 +12,12 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-type S3_ObjectWithKey struct {
-	Key string
-	Body io.ReadCloser
-}
-
 // Sends a random image of a pigeon from the provided bot.
-func OnImage(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
+func OnImage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 	s3Obj, err := getRandomObjectFromS3("btp-pigeon-pics")
 	if err != nil {
 		e.ThrowBotError(bot, msg.ChannelID, err)
-		return err
+		return
 	}
 	img := s3Obj.Body
 	defer img.Close()
@@ -30,13 +25,12 @@ func OnImage(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
 	if err != nil {
 		err = fmt.Errorf("failed to send message with file attachment: %v", err)
 		e.ThrowBotError(bot, msg.ChannelID, err)
-		return err
+		return
 	}
-	return nil
 }
 
 // Returns a random object from a specified S3 bucket.
-func getRandomObjectFromS3(bucket string) (*S3_ObjectWithKey, error) {
+func getRandomObjectFromS3(bucket string) (*s3utils.S3_ObjectWithKey, error) {
 	awssess, err := awssess.GetSession()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get AWS session: %v", err)
@@ -46,11 +40,11 @@ func getRandomObjectFromS3(bucket string) (*S3_ObjectWithKey, error) {
 	if err != nil {
 		return nil, err
 	}
-	s3ObjReader, err := getS3ObjectIOStream(s3svc, bucket, *s3ObjKey)
+	s3ObjReader, err := s3utils.GetS3ObjectIOStream(bucket, *s3ObjKey)
 	if err != nil {
 		return nil, err
 	}
-	s3Obj := &S3_ObjectWithKey{
+	s3Obj := &s3utils.S3_ObjectWithKey{
 		Key: *s3ObjKey,
 		Body: s3ObjReader,
 	}
@@ -68,17 +62,4 @@ func getRandomS3Key(s3svc *s3.S3, bucketLoc string) (*string, error) {
 	randomIndex := rand.Intn(len(objList.Contents))
 	randomKey := *objList.Contents[randomIndex].Key
 	return &randomKey, nil
-}
-
-// Returns an object by provided bucket/key, as an io.ReadCloser.
-func getS3ObjectIOStream(s3svc *s3.S3, bucketLoc string, objKey string) (io.ReadCloser, error) {
-	s3in := &s3.GetObjectInput {
-		Bucket: &bucketLoc,
-		Key:	&objKey,
-	}
-	s3out, err := s3svc.GetObject(s3in)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get object %v from bucket %v: %v", objKey, bucketLoc, err)
-	}
-	return s3out.Body, nil
 }

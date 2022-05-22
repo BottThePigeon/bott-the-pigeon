@@ -20,21 +20,20 @@ type Response_Post_GHProjectCard struct {
 }
 
 // Creates a new Todo on the repo's associated GitHub project.
-func OnTodo(bot *discordgo.Session, msg *discordgo.MessageCreate) error {
+func OnTodo(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 	todo := strings.TrimSpace(strings.Replace(msg.Content, ">todo", "", 1))
 	cardID, err := createGHTodo(os.Getenv("GITHUB_PROJECTS_ACCESS_TOKEN"), os.Getenv("GITHUB_SUGGESTIONS_COLUMN_ID"), todo)
 	if err != nil {
 		e.ThrowBotError(bot, msg.ChannelID, err)
-		return err
+		return
 	}
 	cardLink := genGHProjectCardLink(os.Getenv("GITHUB_REPO_ACCOUNT"), os.Getenv("GITHUB_PROJECT_ID"), strconv.Itoa(*cardID))
 	res := genGHTodoSuccessMessage(cardLink)
 	_, err = bot.ChannelMessageSendEmbed(msg.ChannelID, res)
 	if err != nil {
 		e.ThrowBotError(bot, msg.ChannelID, err)
-		return err
+		return
 	}
-	return nil
 }
 
 // Sends a todo to the repo's GitHub project using the provided text, and returns the card ID.
