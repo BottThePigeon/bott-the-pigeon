@@ -14,7 +14,8 @@ func OnHelp(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 			"**Commands**:\n"+
 			"`support`: Sends bot usage help - like you're seeing right now!\n"+
 			"`pigeon`: Sends a random picture of a pigeon.\n"+
-			"`todo {Some feature}`: Submit a suggestion to the project todo list.\n\n"+
+			"`todo {Some feature}`: Submit a suggestion to the project todo list.\n"+
+			"`mc`: Starts the boys Minecraft server. It takes a few minutes though.\n\n"+
 			"_That's all for now folks, because I'm a dumb bird._")
 	if err != nil {
 		err = fmt.Errorf("failed to send help message: %v", err)

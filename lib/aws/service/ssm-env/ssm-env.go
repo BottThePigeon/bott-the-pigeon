@@ -15,7 +15,7 @@ var ssmsvc *ssm.SSM
 
 // Returns the stored SSM client or creates one if it doesn't exist,
 // using the provided AWS session.
-func getClient(awssess *session.Session) (*ssm.SSM) {
+func getClient(awssess *session.Session) *ssm.SSM {
 	if ssmsvc != nil {
 		return ssmsvc
 	} else {
