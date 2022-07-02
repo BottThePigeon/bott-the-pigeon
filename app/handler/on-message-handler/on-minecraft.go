@@ -12,15 +12,12 @@ import (
 
 func OnMinecraft(bot *discordgo.Session, msg *discordgo.MessageCreate) {
   cluster := os.Getenv("AWS_ECS_MC_CLUSTER_ARN")
-  fmt.Println(cluster)
   taskDef := os.Getenv("AWS_ECS_MC_TASK_DEF_ARN")
   ecsTags := true
-  launchType := "EC2"
   taskIn := &ecs.RunTaskInput{
 	Cluster: &cluster,
 	TaskDefinition: &taskDef,
 	EnableECSManagedTags: &ecsTags,
-	LaunchType: &launchType,
   }
   if _, err := ecsutils.RunTask(taskIn); err != nil {
 	err = fmt.Errorf("failed to start task: %v", err)

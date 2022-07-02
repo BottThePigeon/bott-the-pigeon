@@ -94,7 +94,7 @@ func getConfigs() map[string]string {
 	env["AWS_SSM_PARAMETER_PATH"] = "/btp/"
 	env["AWS_CW_ERROR_LOG_GROUP"] = "bot-error"
 	env["AWS_ECS_MC_CLUSTER_ARN"] = "arn:aws:ecs:eu-west-2:532722796774:cluster/Minecraft-Cluster"
-	env["AWS_ECS_MC_TASK_DEF_ARN"] = "arn:aws:ecs:eu-west-2:532722796774:task-definition/MC-Task:36"
+	env["AWS_ECS_MC_TASK_DEF_ARN"] = "arn:aws:ecs:eu-west-2:532722796774:task-definition/MC-Task:" + os.Getenv("/btp/CURRENT_MC_TASK_VERSION")
 	return env
 }
 
