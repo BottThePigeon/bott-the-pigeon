@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bott-the-pigeon/app/api"
 	bot "bott-the-pigeon/app/session"
 	ssm "bott-the-pigeon/lib/aws/service/ssm-env"
 	aws "bott-the-pigeon/lib/aws/session"
@@ -51,12 +52,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	api.Handler(bot)
+
 	// Closure functions
 	defer bot.Close()
 	addCloseListener()
 }
-
-
 
 // MAIN UTILS
 
@@ -95,6 +96,11 @@ func getConfigs() map[string]string {
 	env["AWS_CW_ERROR_LOG_GROUP"] = "bot-error"
 	env["AWS_ECS_MC_CLUSTER_ARN"] = "arn:aws:ecs:eu-west-2:532722796774:cluster/Minecraft-Cluster"
 	env["AWS_ECS_MC_TASK_DEF_ARN"] = "arn:aws:ecs:eu-west-2:532722796774:task-definition/MC-Task:" + os.Getenv("/btp/CURRENT_MC_TASK_VERSION")
+
+	// Silly Envs
+	env["BOSS_SERVER_ID"] = "467062545547788288"
+	env["BOSS_GENERAL_CHANNEL_ID"] = "559143152800497664"
+	env["BOSS_BIRDHOUSE_CHANNEL_ID"] = "933456734771617832"
 	return env
 }
 
