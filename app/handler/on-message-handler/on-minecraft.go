@@ -2,25 +2,21 @@ package onmessagehandlers
 
 import (
 	e "bott-the-pigeon/app/error"
-	ecsutils "bott-the-pigeon/lib/aws/service/ecs"
+	lambdautils "bott-the-pigeon/lib/aws/service/lambda"
 	"fmt"
 	"os"
 
-	"github.com/aws/aws-sdk-go/service/ecs"
+	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/bwmarrin/discordgo"
 )
 
 func OnMinecraft(bot *discordgo.Session, msg *discordgo.MessageCreate) {
-	cluster := os.Getenv("AWS_ECS_MC_CLUSTER_ARN")
-	taskDef := os.Getenv("AWS_ECS_MC_TASK_DEF_ARN")
-	ecsTags := true
-	taskIn := &ecs.RunTaskInput{
-		Cluster:              &cluster,
-		TaskDefinition:       &taskDef,
-		EnableECSManagedTags: &ecsTags,
+	functionName := os.Getenv("MC_SERVICE_LAUNCHER_LAMBDA")
+	lambdaInvokeIn := &lambda.InvokeInput{
+		FunctionName: &functionName,
 	}
-	if _, err := ecsutils.RunTask(taskIn); err != nil {
-		err = fmt.Errorf("failed to start task: %v", err)
+	if _, err := lambdautils.InvokeLambda(lambdaInvokeIn); err != nil {
+		err = fmt.Errorf("failed to run Lambda: %v", err)
 		e.ThrowBotError(bot, msg.ChannelID, err)
 		return
 	}
@@ -30,8 +26,8 @@ func OnMinecraft(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 
 func genTaskRunSuccessMessage() *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
-		Title:       "Minecraft Server Started (Hopefully).",
-		Description: fmt.Sprintf("I'll tentatively say it worked, lad, but it'll take a few minutes."),
+		Title:       "Support Group Minecraft server starting...",
+		Description: fmt.Sprintf("The server is starting now lad, but it'll take a few minutes. The other Scott will let you know when it's ready."),
 		Color:       0x44DD00,
 	}
 	return msg
