@@ -45,7 +45,7 @@ func getRandomObjectFromS3(bucket string) (*s3utils.S3_ObjectWithKey, error) {
 		return nil, err
 	}
 	s3Obj := &s3utils.S3_ObjectWithKey{
-		Key: *s3ObjKey,
+		Key:  *s3ObjKey,
 		Body: s3ObjReader,
 	}
 	return s3Obj, nil

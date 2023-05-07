@@ -43,8 +43,8 @@ func createGHTodo(ghAccessToken string, ghProjectColumnID string, todoText strin
 	}
 	reqParams := &httputil.HTTP_Request{
 		Method: "POST",
-		URL: 	fmt.Sprintf("https://api.github.com/projects/columns/%v/cards", ghProjectColumnID),
-		Body:	reqBody,
+		URL:    fmt.Sprintf("https://api.github.com/projects/columns/%v/cards", ghProjectColumnID),
+		Body:   reqBody,
 	}
 
 	headers := make(map[string]string)
@@ -76,8 +76,8 @@ func genGHTodoSuccessMessage(link string) *discordgo.MessageEmbed {
 	}
 	return msg
 }
-// This may get reused in future for other success messages, but it can be left for now.
 
+// This may get reused in future for other success messages, but it can be left for now.
 
 // Maps and unmarshals provided response into Response_Post_GHProjectCard type.
 func parseGHTodoPostResponseBody(resp []byte) (*Response_Post_GHProjectCard, error) {

@@ -12,7 +12,7 @@ import (
 // The Bot session pointer is stored, and can be accessed later.
 var bot *discordgo.Session
 
-// Returns the stored Bot session or creates one if it doesn't exist, 
+// Returns the stored Bot session or creates one if it doesn't exist,
 // using the provided token.
 func GetSession(token string) (*discordgo.Session, error) {
 	if bot != nil {

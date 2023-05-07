@@ -23,4 +23,5 @@ func OnHelp(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 		return
 	}
 }
+
 // TODO: This is very hard-coded, and should be called from an API in some way.

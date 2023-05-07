@@ -11,21 +11,21 @@ import (
 )
 
 func OnMinecraft(bot *discordgo.Session, msg *discordgo.MessageCreate) {
-  cluster := os.Getenv("AWS_ECS_MC_CLUSTER_ARN")
-  taskDef := os.Getenv("AWS_ECS_MC_TASK_DEF_ARN")
-  ecsTags := true
-  taskIn := &ecs.RunTaskInput{
-	Cluster: &cluster,
-	TaskDefinition: &taskDef,
-	EnableECSManagedTags: &ecsTags,
-  }
-  if _, err := ecsutils.RunTask(taskIn); err != nil {
-	err = fmt.Errorf("failed to start task: %v", err)
-	e.ThrowBotError(bot, msg.ChannelID, err)
-	return
-  }
-  res := genTaskRunSuccessMessage()
-  bot.ChannelMessageSendEmbed(msg.ChannelID, res)
+	cluster := os.Getenv("AWS_ECS_MC_CLUSTER_ARN")
+	taskDef := os.Getenv("AWS_ECS_MC_TASK_DEF_ARN")
+	ecsTags := true
+	taskIn := &ecs.RunTaskInput{
+		Cluster:              &cluster,
+		TaskDefinition:       &taskDef,
+		EnableECSManagedTags: &ecsTags,
+	}
+	if _, err := ecsutils.RunTask(taskIn); err != nil {
+		err = fmt.Errorf("failed to start task: %v", err)
+		e.ThrowBotError(bot, msg.ChannelID, err)
+		return
+	}
+	res := genTaskRunSuccessMessage()
+	bot.ChannelMessageSendEmbed(msg.ChannelID, res)
 }
 
 func genTaskRunSuccessMessage() *discordgo.MessageEmbed {

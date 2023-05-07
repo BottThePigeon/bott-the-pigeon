@@ -17,8 +17,8 @@ func DoHTTPRequest(req *http.Request, successCode int) (*http.Response, error) {
 		return nil, fmt.Errorf("failed http request: %v", err)
 	} else if resp.StatusCode != successCode {
 		err := errors.New("got bad status code, expected " +
-		strconv.Itoa(successCode) + ", got " + 
-		resp.Status)
+			strconv.Itoa(successCode) + ", got " +
+			resp.Status)
 		return nil, fmt.Errorf("failed http request: %v", err)
 	}
 	return resp, nil

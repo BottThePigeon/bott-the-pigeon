@@ -12,7 +12,7 @@ import (
 
 // An S3 object with the associated key.
 type S3_ObjectWithKey struct {
-	Key string
+	Key  string
 	Body io.ReadCloser
 }
 
@@ -37,9 +37,9 @@ func GetS3ObjectIOStream(bucketLoc string, objKey string) (io.ReadCloser, error)
 		return nil, fmt.Errorf("failed to get AWS session: %v", err)
 	}
 	s3svc := getClient(awssess)
-	s3in := &s3.GetObjectInput {
+	s3in := &s3.GetObjectInput{
 		Bucket: &bucketLoc,
-		Key:	&objKey,
+		Key:    &objKey,
 	}
 	s3out, err := s3svc.GetObject(s3in)
 	if err != nil {

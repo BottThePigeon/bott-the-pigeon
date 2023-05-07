@@ -13,9 +13,9 @@ import (
 
 // Parameters used to create a CloudWatch log.
 type CloudWatch_Log struct {
-	LogGroup string
+	LogGroup  string
 	LogStream string
-	Message string
+	Message   string
 }
 
 // The CloudWatch client pointer is stored, and can be accessed later.
@@ -40,9 +40,9 @@ func Log(logGroup, message string) (*string, error) {
 	}
 	streamUUID := uuid.New().String()
 	params := &CloudWatch_Log{
-		LogGroup: logGroup,
+		LogGroup:  logGroup,
 		LogStream: streamUUID,
-		Message: message,
+		Message:   message,
 	}
 	err = createCWLog(awssess, params)
 	if err != nil {
@@ -59,7 +59,7 @@ func createCWLog(awssess *session.Session, params *CloudWatch_Log) error {
 		return err
 	}
 	_, err = cwsvc.CreateLogStream(&cloudwatchlogs.CreateLogStreamInput{
-		LogGroupName: &params.LogGroup,
+		LogGroupName:  &params.LogGroup,
 		LogStreamName: &params.LogStream,
 	})
 	if err != nil {
@@ -67,14 +67,14 @@ func createCWLog(awssess *session.Session, params *CloudWatch_Log) error {
 	}
 	timestamp := time.Now().Unix() * 1000
 	event := &cloudwatchlogs.InputLogEvent{
-		Message: &params.Message,
+		Message:   &params.Message,
 		Timestamp: &timestamp,
 	}
 	events := make([]*cloudwatchlogs.InputLogEvent, 1)
 	events[0] = event
 	_, err = cwsvc.PutLogEvents(&cloudwatchlogs.PutLogEventsInput{
-		LogEvents: events,
-		LogGroupName: &params.LogGroup,
+		LogEvents:     events,
+		LogGroupName:  &params.LogGroup,
 		LogStreamName: &params.LogStream,
 	})
 	if err != nil {
@@ -87,7 +87,7 @@ func createCWLog(awssess *session.Session, params *CloudWatch_Log) error {
 func ensureLogGroupExists(cwsvc *cloudwatchlogs.CloudWatchLogs, name string) error {
 	var limit int64 = 1
 	lgs, err := cwsvc.DescribeLogGroups(&cloudwatchlogs.DescribeLogGroupsInput{
-		Limit: &limit,
+		Limit:              &limit,
 		LogGroupNamePrefix: &name,
 	})
 	if err != nil {
