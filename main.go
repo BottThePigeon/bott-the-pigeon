@@ -95,6 +95,7 @@ func getConfigs() map[string]string {
 	env["AWS_SSM_PARAMETER_PATH"] = "/btp/"
 	env["AWS_CW_ERROR_LOG_GROUP"] = "bot-error"
 	env["MC_SERVICE_LAUNCHER_LAMBDA"] = "minecraft-domain-stack-LauncherLambda56F011B7-FXjLz8L5sOmY"
+	env["MC_SERVER_DOMAIN_NAME"] = "mc.adadev.uk"
 
 	// Silly Envs
 	env["BOSS_SERVER_ID"] = "467062545547788288"

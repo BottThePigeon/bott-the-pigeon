@@ -27,7 +27,7 @@ func OnMinecraft(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 func genTaskRunSuccessMessage() *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
 		Title:       "Support Group Minecraft server starting...",
-		Description: fmt.Sprintf("The server is starting now lad, but it'll take a few minutes. The other pigeon will let you know when it's ready."),
+		Description: fmt.Sprintf("The server is starting at %s, but it'll take a few minutes. The other pigeon will let you know when it's ready.", os.Getenv("MC_SERVER_DOMAIN_NAME")),
 		Color:       0x44DD00,
 	}
 	return msg
