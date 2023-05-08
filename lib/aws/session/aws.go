@@ -38,7 +38,6 @@ func GetRegionalSession(region string) (*session.Session, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialise session with AWS: %v", err)
 	}
-	awssess = sess
 	log.Println("New AWS session created.")
-	return awssess, nil
+	return sess, nil
 }
