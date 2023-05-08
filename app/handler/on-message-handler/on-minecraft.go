@@ -58,7 +58,7 @@ func genStartupSuccessMessage() *discordgo.MessageEmbed {
 
 func genAlreadyActiveSuccessMessage() *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
-		Title:       "The Support Group Minecraft server is already running!",
+		Title:       "Support Group Minecraft server already running!",
 		Description: fmt.Sprintf("Steady on you bird brain, the server's already running at %s!", os.Getenv("MINECRAFT_DOMAIN")),
 		Color:       0x44DD00,
 	}
