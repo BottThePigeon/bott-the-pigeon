@@ -1,33 +1,24 @@
 package onmessagehandlers
 
 import (
+	c "bott-the-pigeon/app/common"
 	e "bott-the-pigeon/app/error"
-	ecsutils "bott-the-pigeon/lib/aws/service/ecs"
 	lambdautils "bott-the-pigeon/lib/aws/service/lambda"
 	"fmt"
 	"os"
 
-	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/bwmarrin/discordgo"
 )
 
 func OnMinecraft(bot *discordgo.Session, msg *discordgo.MessageCreate) {
-	clusterName := os.Getenv("MC_CLUSTER_NAME")
-	serviceName := os.Getenv("MC_SERVICE_NAME")
-	serviceNames := []*string{&serviceName}
-	ecsDescribeServicesIn := &ecs.DescribeServicesInput{
-		Cluster:  &clusterName,
-		Services: serviceNames,
-	}
-	ecsOut, err := ecsutils.DescribeServices(ecsDescribeServicesIn)
+	isActive, err := c.CheckMinecraftServerStatus()
 	if err != nil {
 		err = fmt.Errorf("ECS describe services failed: %v", err)
 		e.ThrowBotError(bot, msg.ChannelID, err)
 		return
 	}
-	mcService := *ecsOut.Services[0]
-	if *mcService.RunningCount > 0 {
+	if isActive {
 		res := genAlreadyActiveSuccessMessage()
 		bot.ChannelMessageSendEmbed(msg.ChannelID, res)
 		return

@@ -19,16 +19,20 @@ func OnMessage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 	}
 
 	switch {
-	case strings.HasPrefix(strings.ToLower(msg.Content), ">support"):
+	case strings.ToLower(msg.Content) == ">support":
 		handlers.OnHelp(bot, msg)
 
-	case strings.HasPrefix(strings.ToLower(msg.Content), ">pigeon"):
+	case strings.ToLower(msg.Content) == ">pigeon":
 		handlers.OnImage(bot, msg)
 
+	// HasPrefix because we want to take whatever comes after as the input
 	case strings.HasPrefix(strings.ToLower(msg.Content), ">todo"):
 		handlers.OnTodo(bot, msg)
 
-	case strings.HasPrefix(strings.ToLower(msg.Content), ">mc"):
+	case strings.ToLower(msg.Content) == ">mc-status":
+		handlers.OnMinecraftStatus(bot, msg)
+
+	case strings.ToLower(msg.Content) == ">mc":
 		handlers.OnMinecraft(bot, msg)
 
 	case mention:
