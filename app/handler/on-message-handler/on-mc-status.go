@@ -29,7 +29,7 @@ func OnMinecraftStatus(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 
 func genActiveStatusMessage() *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
-		Title:       "The Support Group Minecraft server is online!",
+		Title:       "Support Group Minecraft server online!",
 		Description: fmt.Sprintf("The Support Group Minecraft server is currently online at %s!", os.Getenv("MINECRAFT_DOMAIN")),
 		Color:       0x44DD00,
 	}
@@ -38,7 +38,7 @@ func genActiveStatusMessage() *discordgo.MessageEmbed {
 
 func genInactiveStatusMessage() *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
-		Title:       "The Support Group Minecraft server is currently offline.",
+		Title:       "Support Group Minecraft server currently offline.",
 		Description: fmt.Sprintf("The Support Group Minecraft server at %s is currently offline. You can switch it on by using the `>mc` command!", os.Getenv("MINECRAFT_DOMAIN")),
 		Color:       0xDD4400,
 	}
