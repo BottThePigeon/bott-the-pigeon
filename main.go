@@ -98,7 +98,6 @@ func getConfigs() map[string]string {
 	// Minecraft Server Envs
 	env["MC_CLUSTER_NAME"] = "minecraft"
 	env["MC_SERVICE_NAME"] = "minecraft-server"
-	env["MC_SERVICE_LAUNCHER_LAMBDA"] = "minecraft-domain-stack-LauncherLambda56F011B7-FXjLz8L5sOmY"
 
 	// Silly Envs
 	env["BOSS_SERVER_ID"] = "467062545547788288"
