@@ -15,8 +15,8 @@ func OnHelp(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 			"`support`: Sends bot usage help - like you're seeing right now!\n"+
 			"`pigeon`: Sends a random picture of a pigeon.\n"+
 			"`todo {Some feature}`: Submit a suggestion to the project todo list.\n"+
-			"`mc`: Starts the Minecraft server if it's not already running. It takes a few minutes though. You can configure which server you want to start up by providing a flag - for Vanilla, add `--vanilla`. For Tekkit, add `--tekkit`\n"+
-			"`mc-status`: Checks the current status of the Minecraft server. You can configure which server you want to know the status of by providing a flag - for Vanilla, add `--vanilla`. For Tekkit, add `--tekkit`\n\n"+
+			"`mc`: Starts the Minecraft server if it's not already running. It takes a few minutes though. If you want to run the Tekkit server, use `>mc --tekkit`.\n"+
+			"`mc-status`: Checks the current status of the Minecraft server. If you want to know the status of the Tekkit server, use `>mc-status --tekkit`.\n\n"+
 			"_That's all for now folks, because I'm a dumb bird._")
 	if err != nil {
 		err = fmt.Errorf("failed to send help message: %v", err)
