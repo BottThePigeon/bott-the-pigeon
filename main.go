@@ -98,6 +98,7 @@ func getConfigs() map[string]string {
 	// Minecraft Server Envs
 	env["MC_CLUSTER_NAME"] = "minecraft"
 	env["MC_SERVICE_NAME"] = "minecraft-server"
+	env["MC_VANILLA_CLUSTER_ARN"] = "arn:aws:ecs:eu-west-2:974589691011:cluster/minecraft"
 
 	// Silly Envs
 	env["BOSS_SERVER_ID"] = "467062545547788288"
