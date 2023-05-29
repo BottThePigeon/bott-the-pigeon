@@ -29,10 +29,10 @@ func OnMessage(bot *discordgo.Session, msg *discordgo.MessageCreate) {
 	case strings.HasPrefix(strings.ToLower(msg.Content), ">todo"):
 		handlers.OnTodo(bot, msg)
 
-	case strings.ToLower(msg.Content) == ">mc-status":
+	case strings.HasPrefix(strings.ToLower(msg.Content), ">mc-status"):
 		handlers.OnMinecraftStatus(bot, msg)
 
-	case strings.ToLower(msg.Content) == ">mc":
+	case strings.HasPrefix(strings.ToLower(msg.Content), ">mc"):
 		handlers.OnMinecraft(bot, msg)
 
 	case mention:

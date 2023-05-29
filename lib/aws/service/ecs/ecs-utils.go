@@ -1,10 +1,11 @@
 package ecsutils
 
 import (
-	aws "bott-the-pigeon/lib/aws/session"
+	awsutils "bott-the-pigeon/lib/aws/session"
 
 	"fmt"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ecs"
 )
@@ -23,13 +24,32 @@ func getClient(awssess *session.Session) *ecs.ECS {
 	}
 }
 
+// Returns an ECS client with the provided AWS Session and Configs.
+func getClientWithCfg(awssess *session.Session, cfg *aws.Config) *ecs.ECS {
+	if ecssvc != nil {
+		return ecssvc
+	} else {
+		lambdasvc := ecs.New(awssess, cfg)
+		return lambdasvc
+	}
+}
+
 // Thin wrapper for the ECS Describe Services function, using a managed
 // ECS service.
 func DescribeServices(input *ecs.DescribeServicesInput) (*ecs.DescribeServicesOutput, error) {
-	awssess, err := aws.GetSession()
+	awssess, err := awsutils.GetSession()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get AWS session: %v", err)
 	}
 	ecssvc := getClient(awssess)
+	return ecssvc.DescribeServices(input)
+}
+
+func DescribeServicesWithCfg(input *ecs.DescribeServicesInput, cfg *aws.Config) (*ecs.DescribeServicesOutput, error) {
+	awssess, err := awsutils.GetSession()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get AWS session: %v", err)
+	}
+	ecssvc := getClientWithCfg(awssess, cfg)
 	return ecssvc.DescribeServices(input)
 }
