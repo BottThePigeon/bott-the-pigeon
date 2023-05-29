@@ -61,8 +61,8 @@ func genStartupSuccessMessage(mcDomain string, isVanilla bool) *discordgo.Messag
 	var description string
 
 	if isVanilla {
-		title = "Support Group Minecraft server starting..."
-		description = fmt.Sprintf("The Support Group Minecraft server is starting at %s, but it'll take a few minutes. The other pigeon will let you know when it's ready.", mcDomain)
+		title = "Support Group Vanilla Minecraft server starting..."
+		description = fmt.Sprintf("The Support Group Vanilla Minecraft server is starting at %s, but it'll take a few minutes. The other pigeon will let you know when it's ready.", mcDomain)
 	} else {
 		title = "Support Group Tekkit server starting..."
 		description = fmt.Sprintf("The Support Group Tekkit server is starting at %s, but it'll take a few minutes. The other pigeon will let you know when it's ready.", mcDomain)
@@ -82,7 +82,7 @@ func genAlreadyActiveSuccessMessage(mcDomain string, isVanilla bool) *discordgo.
 	var description string
 
 	if isVanilla {
-		title = "Support Group Minecraft server already running!"
+		title = "Support Group Vanilla Minecraft server already running!"
 	} else {
 		title = "Support Group Tekkit server already running!"
 	}

@@ -48,8 +48,8 @@ func genActiveStatusMessage(mcDomain string, isVanilla bool) *discordgo.MessageE
 	var description string
 
 	if isVanilla {
-		title = "Support Group Minecraft server online!"
-		description = fmt.Sprintf("The Support Group Minecraft server is currently online at %s!", mcDomain)
+		title = "Support Group Vanilla Minecraft server online!"
+		description = fmt.Sprintf("The Support Group Vanilla Minecraft server is currently online at %s!", mcDomain)
 	} else {
 		title = "Support Group Tekkit server online!"
 		description = fmt.Sprintf("The Support Group Tekkit server is currently online at %s!", mcDomain)
@@ -69,8 +69,8 @@ func genInactiveStatusMessage(mcDomain string, isVanilla bool) *discordgo.Messag
 	var description string
 
 	if isVanilla {
-		title = "Support Group Minecraft server currently offline."
-		description = fmt.Sprintf("The Support Group Minecraft server at %s is currently offline. You can switch it on by using the `>mc` command!", mcDomain)
+		title = "Support Group Vanilla Minecraft server currently offline."
+		description = fmt.Sprintf("The Support Group Vanilla Minecraft server at %s is currently offline. You can switch it on by using the `>mc` command!", mcDomain)
 	} else {
 		title = "Support Group Tekkit server currently offline."
 		description = fmt.Sprintf("The Support Group Tekkit server at %s is currently offline. You can switch it on by using the `>mc --tekkit` command!", mcDomain)
